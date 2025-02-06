@@ -1,21 +1,21 @@
 <template>
-    <header class="header-container">
-        <div class="header-content">
-            <div class="logo-container">
-                <img :src="pncLogo" alt="PNC Logo" class="pnc-logo">
-            </div>
-            <div class="title-container">
-                <img :src="logoIASR" alt="iASR Logo" class="logo-iasr">
-                <span class="text">{{ title }}</span>
-            </div>
-        </div>
-    </header>
-    <hr>
+  <header class="header-container">
+    <div class="header-content">
+      <div class="logo-container">
+        <img :src="pncLogo" alt="PNC Logo" class="pnc-logo">
+      </div>
+      <div class="title-container">
+        <img :src="logoIASR" alt="iASR Logo" class="logo-iasr">
+        <span class="text">{{ title }}</span>
+      </div>
+    </div>
+  </header>
+  <hr>
 </template>
   
  
 <script>
-import logoIASR from "@/assets/img/logo.png";
+import logoIASR from "@/assets/img/logoIASR.png";
 import pncLogo from "@/assets/img/pnc-logo-1.png";
 
 export default {
@@ -37,13 +37,14 @@ export default {
   align-items: center;
   position: relative;
   width: 100%;
-  height: 150px;
+  height: 110px;
   background-color: transparent;
 }
 
 .header-content {
   display: flex;
   align-items: center;
+  justify-content: center;
   text-align: center;
   width: 100%;
   padding: 10px 50px;
@@ -52,12 +53,11 @@ export default {
 .logo-container {
   display: flex;
   align-items: center;
-  justify-content: flex-start;
   flex: 0;
 }
 
 .pnc-logo {
-  height: 120px;
+  height: 100px;
   width: auto;
 }
 
@@ -70,7 +70,7 @@ export default {
 }
 
 .logo-iasr {
-  width: 100px;
+  width: 90px;
   height: auto;
 }
 

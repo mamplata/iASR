@@ -1,10 +1,8 @@
 <template>
     <div>
-        <div class="container">
-            <div class="card">
-                <div class="card-body">
-                    <img :src="animation" alt="RFID Scan Animation" class="img-fluid">
-                </div>
+        <div class="card">
+            <div class="card-body">
+                <img :src="animation" alt="RFID Scan Animation" class="img-fluid">
             </div>
         </div>
     </div>

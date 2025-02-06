@@ -1,6 +1,6 @@
 <template>
     <div class="table-responsive">
-        <table class="table table-striped table-hover w-100">
+        <table class="table table-striped table-hover">
             <thead>
                 <tr>
                     <th>Photo</th>
@@ -39,12 +39,12 @@
 
 <style scoped>
 .table-responsive {
-    width: 100%;  /* Ensure the table container takes the full width */
-    overflow-x: auto;  /* Add scrollable behavior when the table overflows */
+    width: 90%;
+    overflow-x: auto;
 }
 
 .table {
-    width: 100% !important; /* Make sure the table itself fills the container */
-    table-layout: auto; /* Allow the table to adapt to the content size */
+    width: 100% !important;
+    table-layout: auto;
 }
 </style>

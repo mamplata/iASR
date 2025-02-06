@@ -9,4 +9,5 @@ import RFIDScanner from './components/RFIDScanner.vue';
  </div>
 </template>
 
-<style scoped></style>
+<style>
+</style>

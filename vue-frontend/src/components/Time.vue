@@ -3,7 +3,7 @@
         <div class="container-fluid">
             <img :src="pncBg" alt="PNC Background" class="pnc-bg">
             <div class="time-container">
-                <h1 class="display-1"><b>{{ time }}</b></h1>
+                <h1 class="display-3"><b>{{ time }}</b></h1>
                 <h4 class="display-6"><b>{{ date }}</b></h4>
             </div>
         </div>
@@ -50,11 +50,12 @@ export default {
 <style scoped>
 .image-wrapper {
     width: 100%;
-    height: 200px;
+    height: 150px;
     display: flex;
     justify-content: center;
     align-items: center;
     position: relative;
+    overflow: hidden;
 }
 
 .container-fluid {
@@ -65,6 +66,7 @@ export default {
     align-items: center;
     overflow: hidden;
     position: relative;
+    padding: 0;
 }
 
 .pnc-bg {
