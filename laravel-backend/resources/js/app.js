@@ -8,6 +8,9 @@ import { ZiggyVue } from '../../vendor/tightenco/ziggy';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap';
 import '@fortawesome/fontawesome-free/css/all.css';
+import "@fontsource/nunito-sans"; // Defaults to weight 400
+import "@fontsource/nunito-sans/600.css"; // Specify weight
+
 
 const appName = import.meta.env.VITE_APP_NAME || 'Laravel';
 

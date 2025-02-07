@@ -1,6 +1,6 @@
 <script setup>
 import { ref } from 'vue';
-import ApplicationLogo from '@/Components/ApplicationLogo.vue';
+import AuthLogo from '@/Components/AuthLogo.vue';
 import Dropdown from '@/Components/Dropdown.vue';
 import DropdownLink from '@/Components/DropdownLink.vue';
 import NavLink from '@/Components/NavLink.vue';
@@ -14,74 +14,64 @@ const showingNavigationDropdown = ref(false);
   <div>
     <div class="min-h-screen bg-gray-100 flex">
       <!-- Sidebar -->
-      <div
-        class="w-64 bg-white border-r border-gray-100 hidden sm:block shadow-lg hover:shadow-xl transition-shadow duration-300">
+      <div class="w-64 bg-white border-r border-gray-100 hidden sm:block transition-shadow duration-300">
         <div class="flex flex-col h-full">
           <!-- Logo -->
           <div class="flex shrink-0 items-center p-6">
-            <Link :href="route('dashboard')" class="no-underline">
-            <ApplicationLogo class="block w-auto fill-current text-gray-800" />
+            <Link :href="route('dashboard')">
+            <AuthLogo />
             </Link>
           </div>
           <!-- Navigation Links -->
-          <div class="flex-1 space-y-4 px-2 py-4">
+          <div class="flex-1 space-y-4 px-2 py-2">
             <!-- Dashboard -->
-            <NavLink href="#"
+            <NavLink :href="route('dashboard')"
               class="block w-full rounded-md text-gray-700 hover:bg-gray-100 hover:shadow-md transition duration-200">
               <h6 class="d-flex justify-content-center align-items-center">
                 <i class="fas fa-gauge me-2"></i>
-                <span class="text-center">DASHBOARD</span>
+                <span class="text-center">Dashboard</span>
               </h6>
             </NavLink>
-
-            <!-- RFID Card Administration -->
-            <NavLink href="#"
+            <NavLink :href="route('rfid-card')"
               class="block w-full rounded-md text-gray-700 hover:bg-gray-100 hover:shadow-md transition duration-200">
               <h6 class="d-flex justify-content-center align-items-center">
                 <i class="fas fa-id-card me-2"></i>
-                <span class="text-center">RFID CARD</span>
+                <span class="text-center">RFID Card</span>
               </h6>
             </NavLink>
-
-            <!-- Device Administration -->
-            <NavLink href="#"
+            <NavLink :href="route('device')"
               class="block w-full rounded-md text-gray-700 hover:bg-gray-100 hover:shadow-md transition duration-200">
               <h6 class="d-flex justify-content-center align-items-center">
-                <i class="fas fa-cogs me-2"></i>
-                <span class="text-center">DEVICE</span>
+                <i class="fas fa-desktop me-2"></i>
+                <span class="text-center">Devices</span>
               </h6>
             </NavLink>
-
-            <!-- Announcements -->
-            <NavLink href="#"
+            <NavLink :href="route('announcement')"
               class="block w-full rounded-md text-gray-700 hover:bg-gray-100 hover:shadow-md transition duration-200">
               <h6 class="d-flex justify-content-center align-items-center">
                 <i class="fas fa-bullhorn me-2"></i>
-                <span>ANNOUNCEMENTS</span>
+                <span class="text-center">Announcements</span>
               </h6>
             </NavLink>
-            <NavLink href="#"
+            <NavLink :href="route('audit-logs')"
               class="block w-full rounded-md text-gray-700 hover:bg-gray-100 hover:shadow-md transition duration-200">
               <h6 class="d-flex justify-content-center align-items-center">
-                <i class="fas fa-clipboard-list me-2"></i>
-                <span class="text-center">AUDIT LOGS</span>
+                <i class="fas fa-scroll me-2"></i>
+                <span class="text-center">Audit Logs</span>
               </h6>
             </NavLink>
-            <!-- Entry Logs -->
-            <NavLink href="#"
+            <NavLink :href="route('entry-logs')"
               class="block w-full rounded-md text-gray-700 hover:bg-gray-100 hover:shadow-md transition duration-200">
               <h6 class="d-flex justify-content-center align-items-center">
-                <i class="fas fa-book me-2"></i>
-                <span class="text-center">ENTRY LOGS</span>
+                <i class="fas fa-right-to-bracket me-2"></i>
+                <span class="text-center">Entry Logs</span>
               </h6>
             </NavLink>
-
-            <!-- Unauthorized Access Logs -->
-            <NavLink href="#"
+            <NavLink :href="route('unauthorized-logs')"
               class="block w-full rounded-md text-gray-700 hover:bg-gray-100 hover:shadow-md transition duration-200">
               <h6 class="d-flex justify-content-center align-items-center">
-                <i class="fas fa-exclamation-triangle me-2"></i>
-                <span>UNAUTHORIZED LOGS</span>
+                <i class="fas fa-ban me-2"></i>
+                <span class="text-center">Unauthorized Logs</span>
               </h6>
             </NavLink>
           </div>
@@ -90,13 +80,13 @@ const showingNavigationDropdown = ref(false);
       <!-- Main Content Area -->
       <div class="flex-1 flex flex-col">
         <!-- Header with Burger Menu for Mobile -->
-        <header class="bg-[#198754] shadow">
-          <div class="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
+        <header class="main-header bg-[#198754]">
+          <div class="mx-auto max-w-7xl px-4 py-3 sm:px-6 lg:px-8">
             <div class="flex justify-between items-center">
               <!-- Burger Menu for Mobile -->
               <div class="-me-2 flex items-center sm:hidden">
                 <button @click="showingNavigationDropdown = !showingNavigationDropdown"
-                  class="inline-flex items-center justify-center rounded-md p-2 text-gray-400 transition duration-150 ease-in-out hover:bg-gray-100 hover:text-gray-500 focus:bg-gray-100 focus:text-gray-500 focus:outline-none">
+                  class="inline-flex items-center justify-center rounded-md p-2 text-gray-400 transition duration-150 ease-in-out bg-gray-100 text-gray-500 focus:bg-gray-100 focus:text-gray-500 focus:outline-none">
                   <svg class="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
                     <path :class="{ hidden: showingNavigationDropdown, 'inline-flex': !showingNavigationDropdown }"
                       stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
@@ -105,23 +95,22 @@ const showingNavigationDropdown = ref(false);
                   </svg>
                 </button>
               </div>
-
+              <div>
+                <h4 class="text-white hidden lg:block font-bold">Welcome, {{
+                  $page.props.auth.user.name.charAt(0).toUpperCase() +
+                  $page.props.auth.user.name.slice(1) }}!</h4>
+              </div>
               <!-- User Dropdown -->
               <div class="hidden sm:ms-auto sm:flex sm:items-center">
                 <div class="relative ms-3">
                   <Dropdown align="right" width="48">
                     <template #trigger>
                       <span class="inline-flex rounded-md">
-                        <button type="button"
-                          class="inline-flex items-center rounded-md border border-transparent bg-white px-3 py-2 text-sm font-medium leading-4 text-gray-500 transition duration-150 ease-in-out hover:text-gray-700 focus:outline-none">
-                          {{ $page.props.auth.user.name }}
-                          <svg class="-me-0.5 ms-2 h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
-                            fill="currentColor">
-                            <path fill-rule="evenodd"
-                              d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-                              clip-rule="evenodd" />
-                          </svg>
-                        </button>
+                        <div
+                          class="flex items-center gap-2 rounded-md px-4 py-2 text-sm font-medium text-gray-600 shadow-sm transition duration-200 ease-in-out focus:ring-2 focus:ring-gray-300 focus:outline-none">
+                          <img src="@/img/menu.png" alt="menu"
+                            class="transition duration-200 ease-in-out hover:filter hover:brightness-0 hover:sepia hover:hue-rotate-90 focus:filter focus:brightness-0 focus:sepia focus:hue-rotate-90">
+                        </div>
                       </span>
                     </template>
 
@@ -140,11 +129,32 @@ const showingNavigationDropdown = ref(false);
           </div>
         </header>
 
-        <!-- Responsive Navigation Menu for Mobile -->
-        <div :class="{ block: showingNavigationDropdown, hidden: !showingNavigationDropdown }" class="sm:hidden">
+        <!-- Navigation for MObile -->
+        <div :class="{ block: showingNavigationDropdown, hidden: !showingNavigationDropdown }"
+          class="sm:hidden bg-white h-100">
           <div class="space-y-1 pb-3 pt-2">
-            <ResponsiveNavLink :href="route('dashboard')" :active="route().current('dashboard')">
-              Dashboard
+            <ResponsiveNavLink :href="route('dashboard')" :active="route().current('dashboard')" class="no-underline">
+              <i class="fas fa-gauge me-2"></i> Dashboard
+            </ResponsiveNavLink>
+            <ResponsiveNavLink :href="route('rfid-card')" :active="route().current('rfid-card')" class="no-underline">
+              <i class="fas fa-id-card me-2"></i> RFID Card
+            </ResponsiveNavLink>
+            <ResponsiveNavLink :href="route('device')" :active="route().current('device')" class="no-underline">
+              <i class="fas fa-desktop me-2"></i> Devices
+            </ResponsiveNavLink>
+            <ResponsiveNavLink :href="route('announcement')" :active="route().current('announcement')"
+              class="no-underline">
+              <i class="fas fa-bullhorn me-2"></i> Announcements
+            </ResponsiveNavLink>
+            <ResponsiveNavLink :href="route('audit-logs')" :active="route().current('audit-logs')" class="no-underline">
+              <i class="fas fa-scroll me-2"></i> Audit Logs
+            </ResponsiveNavLink>
+            <ResponsiveNavLink :href="route('entry-logs')" :active="route().current('entry-logs')" class="no-underline">
+              <i class="fas fa-right-to-bracket me-2"></i> Entry Logs
+            </ResponsiveNavLink>
+            <ResponsiveNavLink :href="route('unauthorized-logs')" :active="route().current('unauthorized-logs')"
+              class="no-underline">
+              <i class="fas fa-ban me-2"></i> Unauthorized Logs
             </ResponsiveNavLink>
           </div>
 
@@ -160,25 +170,32 @@ const showingNavigationDropdown = ref(false);
             </div>
 
             <div class="mt-3 space-y-1">
-              <ResponsiveNavLink :href="route('profile.edit')">
-                Profile
+              <ResponsiveNavLink :href="route('profile.edit')" class="no-underline">
+                <i class="fas fa-user-edit me-2"></i> Profile
               </ResponsiveNavLink>
-              <ResponsiveNavLink :href="route('logout')" method="post" as="button">
-                Log Out
+              <ResponsiveNavLink :href="route('logout')" method="post" as="button" class="no-underline">
+                <i class="fas fa-sign-out-alt me-2"></i> Log Out
               </ResponsiveNavLink>
             </div>
           </div>
         </div>
 
-        <!-- Page Heading -->
-        <header class="bg-white shadow" v-if="$slots.header">
-          <div class="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
+        <!-- Page Heading (for larger screens) -->
+        <header class="bg-white shadow sm:block hidden">
+          <div class="mx-auto max-w-7xl px-4 py-3 sm:px-6 lg:px-8">
             <slot name="header" />
           </div>
         </header>
 
         <!-- Page Content -->
-        <main>
+        <main class="flex-1 overflow-y-auto">
+          <!-- Page Heading (for smaller screens) -->
+          <header class="bg-white shadow sm:hidden">
+            <div class="mx-auto max-w-7xl px-4 py-3 sm:px-6 lg:px-8">
+              <slot name="header" />
+            </div>
+          </header>
+
           <slot />
         </main>
       </div>
@@ -195,3 +212,41 @@ export default {
   },
 };
 </script>
+
+<style>
+/* Ensure the body takes up the full height */
+html, body {
+  height: 100%;
+  margin: 0;
+}
+
+/* Main container with flex layout */
+.min-h-screen {
+  display: flex;
+  flex-direction: row;
+  height: 100vh;
+}
+
+/* Sidebar fixed position */
+.w-64 {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow-y: auto;
+}
+
+/* Main content area */
+.flex-1 {
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto; /* Makes the main content scrollable */
+}
+
+/* Header static position */
+.main-header {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+
+</style>

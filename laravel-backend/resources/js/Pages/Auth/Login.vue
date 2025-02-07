@@ -30,9 +30,10 @@ const submit = () => {
 </script>
 
 <template>
+    <div class="background"></div>
     <GuestLayout>
         <Head title="Log in" />
-
+        
         <div v-if="status" class="mb-4 text-sm font-medium text-green-600">
             {{ status }}
         </div>
@@ -98,3 +99,7 @@ const submit = () => {
         </form>
     </GuestLayout>
 </template>
+
+<style scoped>
+
+</style>

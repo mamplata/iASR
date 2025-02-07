@@ -2,8 +2,19 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-    --main-color: #008000; /* Green color */
+* {
+    font-family: "Nunito Sans", sans-serif;
 }
 
-
+.background {
+  position: fixed; /* Make it cover the entire viewport */
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background-image: url('../js/img/pnc-bg-1.jpg'); /* Adjust path if needed */
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  z-index: -1;
+}

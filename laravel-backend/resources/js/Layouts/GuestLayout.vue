@@ -1,22 +1,20 @@
 <script setup>
-import ApplicationLogo from '@/Components/ApplicationLogo.vue';
+import GuestLogo from '@/Components/GuestLogo.vue';
 import { Link } from '@inertiajs/vue3';
 </script>
 
 <template>
-    <div
-        class="flex min-h-screen flex-col items-center bg-gray-100 pt-6 sm:justify-center sm:pt-0"
-    >
-        <div>
+<div class="guest flex min-h-screen flex-col items-center justify-center px-4">
+    <div class="w-full max-w-md overflow-hidden bg-white px-6 py-8 shadow-lg rounded-lg">
+        <!-- Centered Logo -->
+        <div class="flex justify-center mb-6">
             <Link href="/">
-                <ApplicationLogo class="h-20 w-20 fill-current text-gray-500" />
+                <GuestLogo class="fill-current text-gray-500" />
             </Link>
         </div>
-
-        <div
-            class="mt-6 w-full overflow-hidden bg-white px-6 py-4 shadow-md sm:max-w-md sm:rounded-lg"
-        >
-            <slot />
-        </div>
+        <!-- Slot for Content -->
+        <slot />
     </div>
+</div>
+
 </template>
