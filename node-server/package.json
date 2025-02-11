@@ -13,6 +13,7 @@
     "cors": "^2.8.5",
     "express": "^4.21.2",
     "macaddress": "^0.5.3",
+    "ndef": "^0.2.0",
     "nfc-pcsc": "^0.8.1",
     "node-machine-id": "^1.1.12",
     "pcsclite": "^1.0.1",
