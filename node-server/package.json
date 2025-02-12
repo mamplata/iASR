@@ -17,6 +17,7 @@
     "nfc-pcsc": "^0.8.1",
     "node-machine-id": "^1.1.12",
     "pcsclite": "^1.0.1",
+    "readline-sync": "^1.4.10",
     "socket.io": "^4.8.1",
     "systeminformation": "^5.25.11"
   }
