@@ -15,6 +15,41 @@ use Inertia\Response;
 
 class RegisteredUserController extends Controller
 {
+    public function index(Request $request): Response
+    {
+        $search = $request->query('search');
+
+        $query = User::query();
+
+        if ($search) {
+            $query->where('email', 'like', "%$search%");
+        }
+
+        return Inertia::render('Admin/Index', [
+            'users' => $query->paginate(5),
+            'filters' => [
+                'search' => $search,
+            ]
+        ]);
+    }
+
+    public function toggle(Request $request, User $user)
+    {
+        // Validate the new status (0 for inactive, 1 for active)
+        $request->validate([
+            'status' => 'required|in:0,1',
+        ]);
+
+        // Update the user's status
+        $user->status = $request->input('status');
+        $user->save();
+
+        // Redirect to the admin-accounts page with a flash message.
+        // Inertia will pick up the flash message if you have set up your shared props accordingly.
+        return redirect()->route('admin-accounts')
+            ->with('success', 'Admin status updated successfully.');
+    }
+
     /**
      * Display the registration view.
      */
@@ -32,7 +67,7 @@ class RegisteredUserController extends Controller
     {
         $request->validate([
             'name' => 'required|string|max:255',
-            'email' => 'required|string|lowercase|email|max:255|unique:'.User::class,
+            'email' => 'required|string|lowercase|email|max:255|unique:' . User::class,
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ]);
 

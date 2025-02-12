@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RFIDCardController;
 use Illuminate\Foundation\Application;
@@ -32,13 +33,19 @@ Route::get('/entry-logs', function () {
     return Inertia::render('Entry_Logs/Index');
 })->middleware(['auth', 'verified'])->name('entry-logs');
 
+// ADMIN ACCOUNTS
+Route::get('/admin-accounts', [RegisteredUserController::class, 'index'])
+    ->middleware(['auth', 'verified'])->name('admin-accounts');
+Route::put('/admin-accounts/{user}/toggle', [RegisteredUserController::class, 'toggle'])
+    ->middleware(['auth', 'verified'])->name('admin-accounts.toggle');
+
 //RFID Card
 Route::get('/rfid-card', [RFIDCardController::class, 'index'])
-->middleware(['auth', 'verified'])->name('rfid-card');
+    ->middleware(['auth', 'verified'])->name('rfid-card');
 Route::get('/rfid-card/create', [RFIDCardController::class, 'create'])
-->middleware(['auth', 'verified'])->name('rfid-card.create');
+    ->middleware(['auth', 'verified'])->name('rfid-card.create');
 Route::delete('/rfid-card/delete', [RFIDCardController::class, 'destroy'])
-->middleware(['auth', 'verified'])->name('rfid-card.destroy');
+    ->middleware(['auth', 'verified'])->name('rfid-card.destroy');
 
 
 Route::get('/unauthorized-logs', function () {
