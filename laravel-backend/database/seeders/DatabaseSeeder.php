@@ -15,5 +15,6 @@ class DatabaseSeeder extends Seeder
     {
         $this->call(RFIDCardSeeder::class);
         $this->call(UserSeeder::class);
+        $this->call(AuditLogSeeder::class);
     }
 }

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AuditLogController;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RFIDCardController;
@@ -23,9 +24,8 @@ Route::get('/dashboard', function () {
 Route::get('/announcement', function () {
     return Inertia::render('Announcement/Index');
 })->middleware(['auth', 'verified'])->name('announcement');
-Route::get('/audit-logs', function () {
-    return Inertia::render('Audit_Logs/Index');
-})->middleware(['auth', 'verified'])->name('audit-logs');
+Route::get('/audit-logs', [AuditLogController::class, 'index'])
+    ->middleware(['auth', 'verified'])->name('audit-logs');
 Route::get('/device', function () {
     return Inertia::render('Device/Index');
 })->middleware(['auth', 'verified'])->name('device');
