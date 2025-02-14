@@ -3,6 +3,7 @@
 use App\Http\Controllers\AnnouncementController;
 use App\Http\Controllers\AuditLogController;
 use App\Http\Controllers\Auth\RegisteredUserController;
+use App\Http\Controllers\NFCCardController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -42,11 +43,12 @@ Route::get('/admin-accounts', [RegisteredUserController::class, 'index'])
 Route::put('/admin-accounts/{user}/toggle', [RegisteredUserController::class, 'toggle'])
     ->middleware(['auth', 'verified'])->name('admin-accounts.toggle');
 
-//RFID Card
+//NFC Card
 Route::get('/nfc-cards', function () {
     return Inertia::render('NFC_Card/Index');
 })->middleware(['auth', 'verified'])->name('nfc-cards');
-
+Route::post('/nfc-cards/store', [NFCCardController::class, 'store'])
+    ->middleware(['auth', 'verified'])->name('nfc-cards.store');
 
 Route::get('/unauthorized-logs', function () {
     return Inertia::render('Unauthorized_Logs/Index');

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\NFCCard;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class NFCCardController extends Controller
 {
@@ -28,7 +29,21 @@ class NFCCardController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validator = Validator::make($request->all(), [
+            'uid' => 'required|string|max:8|unique:nfc_cards,uid',
+            'student_id' => 'required|string|max:7|unique:nfc_cards,student_id',
+        ]);
+
+        if ($validator->fails()) {
+            // Dump errors for debugging and stop execution.
+            var_dump($validator->errors()->all());
+            exit;
+        }
+
+        NFCCard::create([
+            'uid' => $request->uid,
+            'student_id'  => $request->student_id,
+        ]);
     }
 
     /**

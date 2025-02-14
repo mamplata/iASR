@@ -1,14 +1,14 @@
 <script setup>
 import { onMounted, ref, onUnmounted } from "vue";
-import { Head } from "@inertiajs/vue3";
+import { Head, router } from "@inertiajs/vue3";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
 import { io } from "socket.io-client";
-
-// Define reactive state
-const responseMessage = ref("");
+const studentID = ref("");
+const nfcStatus = ref("");
+const nfcError = ref("");
+const studentRecords = ref([]);
 let socket = null;
 
-// Connect to Socket.io on mount
 onMounted(() => {
     socket = io("http://localhost:3000");
 
@@ -16,14 +16,24 @@ onMounted(() => {
         console.log("Connected to Socket.io server");
     });
 
-    socket.on("responseEvent1", (data) => {
-        console.log("Event 1 Response:", data);
-        responseMessage.value = data.message;
+    socket.on("nfcStatus", (message) => {
+        nfcStatus.value = message;
     });
 
-    socket.on("responseEvent2", (data) => {
-        console.log("Event 2 Response:", data);
-        responseMessage.value = data.message;
+    socket.on("studentRegistered", (students) => {
+        console.log(students);
+        let latestStudent = students[students.length - 1];
+        router.post(route('nfc-cards.store'), {
+            uid: latestStudent.nfcUID,
+            student_id: latestStudent.studentID,
+        });
+        studentRecords.value = students;
+        nfcStatus.value = "Student Registered Successfully!";
+    });
+
+    socket.on("nfcError", (error) => {
+        console.error("NFC Error:", error);
+        nfcError.value = error;
     });
 
     socket.on("disconnect", () => {
@@ -31,16 +41,17 @@ onMounted(() => {
     });
 });
 
-// Define methods
-const emitEvent1 = () => {
-    socket.emit("event1", { message: "Button 1 clicked" });
+const registerStudent = () => {
+    if (!studentID.value) {
+        alert("Please enter a Student ID first.");
+        return;
+    }
+
+    console.log("Registering Student ID:", studentID.value);
+    socket.emit("registerStudent", studentID.value);
+    nfcStatus.value = "Waiting for NFC tap...";
 };
 
-const emitEvent2 = () => {
-    socket.emit("event2", { message: "Button 2 clicked" });
-};
-
-// Cleanup on unmount
 onUnmounted(() => {
     if (socket) {
         socket.disconnect();
@@ -65,12 +76,23 @@ onUnmounted(() => {
                     <div class="overflow-hidden bg-white shadow-sm sm:rounded-lg">
                         <div class="p-6 text-gray-900">
                             <div class="container">
-                                <h1>Socket.io with Laravel Vue</h1>
+                                <h1>Student Registration via NFC</h1>
 
-                                <button class="btn btn-primary" @click="emitEvent1">Send Event 1</button>
-                                <button class="btn btn-secondary" @click="emitEvent2">Send Event 2</button>
+                                <div class="input-section">
+                                    <label>Enter Student ID:</label>
+                                    <input v-model="studentID" placeholder="Student ID" />
+                                    <button class="btn btn-primary" @click="registerStudent">Tap Your Card Now</button>
+                                </div>
 
-                                <p>Server Response: {{ responseMessage }}</p>
+                                <p v-if="nfcStatus">{{ nfcStatus }}</p>
+                                <p v-if="nfcError" class="error">{{ nfcError }}</p>
+
+                                <h2>Registered Students</h2>
+                                <ul>
+                                    <li v-for="student in studentRecords" :key="student.nfcUID">
+                                        <strong>{{ student.studentID }}</strong> - NFC UID: {{ student.nfcUID }}
+                                    </li>
+                                </ul>
                             </div>
                         </div>
                     </div>
