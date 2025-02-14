@@ -1,29 +1,32 @@
 <?php
 
+use App\Http\Controllers\AnnouncementController;
 use App\Http\Controllers\AuditLogController;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\RFIDCardController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
-
-// Route::get('/', function () {
-//     return Inertia::render('Welcome', [
-//         'canLogin' => Route::has('login'),
-//         'canRegister' => Route::has('register'),
-//         'laravelVersion' => Application::VERSION,
-//         'phpVersion' => PHP_VERSION,
-//     ]);
-// });
 
 // ADMIN ROUTES
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
-Route::get('/announcement', function () {
-    return Inertia::render('Announcement/Index');
-})->middleware(['auth', 'verified'])->name('announcement');
+
+// ANNNOUNCEMENTS
+Route::get('/announcements', [AnnouncementController::class, 'index'])
+    ->middleware(['auth', 'verified'])->name('announcements');
+Route::get('/announcements/create', [AnnouncementController::class, 'create'])
+    ->middleware(['auth', 'verified'])->name('announcements.create');
+Route::post('/announcements/store', [AnnouncementController::class, 'store'])
+    ->middleware(['auth', 'verified'])->name('announcements.store');
+Route::get('announcements/{announcement}/edit', [AnnouncementController::class, 'edit'])
+    ->name('announcements.edit');
+Route::put('announcements/{announcement}', [AnnouncementController::class, 'update'])
+    ->name('announcements.update');
+Route::delete('/announcements/{announcement}', [AnnouncementController::class, 'destroy'])
+    ->middleware(['auth', 'verified'])->name('announcements.destroy');
+
 Route::get('/audit-logs', [AuditLogController::class, 'index'])
     ->middleware(['auth', 'verified'])->name('audit-logs');
 Route::get('/device', function () {
@@ -40,12 +43,9 @@ Route::put('/admin-accounts/{user}/toggle', [RegisteredUserController::class, 't
     ->middleware(['auth', 'verified'])->name('admin-accounts.toggle');
 
 //RFID Card
-Route::get('/rfid-card', [RFIDCardController::class, 'index'])
-    ->middleware(['auth', 'verified'])->name('rfid-card');
-Route::get('/rfid-card/create', [RFIDCardController::class, 'create'])
-    ->middleware(['auth', 'verified'])->name('rfid-card.create');
-Route::delete('/rfid-card/delete', [RFIDCardController::class, 'destroy'])
-    ->middleware(['auth', 'verified'])->name('rfid-card.destroy');
+Route::get('/nfc-cards', function () {
+    return Inertia::render('NFC_Card/Index');
+})->middleware(['auth', 'verified'])->name('nfc-cards');
 
 
 Route::get('/unauthorized-logs', function () {

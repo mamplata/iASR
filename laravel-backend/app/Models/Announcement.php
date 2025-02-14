@@ -13,5 +13,7 @@ class Announcement extends Model
         'department',
         'publisher',
         'content',
+        'publication_date',
+        'content_type'
     ];
 }

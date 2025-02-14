@@ -5,9 +5,22 @@ import Dropdown from '@/Components/Dropdown.vue';
 import DropdownLink from '@/Components/DropdownLink.vue';
 import NavLink from '@/Components/NavLink.vue';
 import ResponsiveNavLink from '@/Components/ResponsiveNavLink.vue';
-import { Link } from '@inertiajs/vue3';
+import { Link, router } from '@inertiajs/vue3';
 
 const showingNavigationDropdown = ref(false);
+
+let disabled_logout = ref(false);
+
+const logout = () => {
+    // Disable the button immediately
+    disabled_logout.value = true;
+    router.post(route('logout'), {}, {
+        onError: () => {
+            disabled_logout.value = false;
+        }
+    });
+};
+
 </script>
 
 <template>
@@ -39,11 +52,11 @@ const showingNavigationDropdown = ref(false);
                                 <span class="text-center">Admin</span>
                             </h6>
                         </NavLink>
-                        <NavLink :href="route('rfid-card')"
+                        <NavLink :href="route('nfc-cards')"
                             class="block w-full rounded-md text-gray-700 hover:bg-gray-100 hover:shadow-md transition duration-200">
                             <h6 class="d-flex justify-content-center align-items-center">
                                 <i class="fas fa-id-card me-2"></i>
-                                <span class="text-center">RFID Card</span>
+                                <span class="text-center">NFC Card</span>
                             </h6>
                         </NavLink>
                         <NavLink :href="route('device')"
@@ -53,7 +66,7 @@ const showingNavigationDropdown = ref(false);
                                 <span class="text-center">Devices</span>
                             </h6>
                         </NavLink>
-                        <NavLink :href="route('announcement')"
+                        <NavLink :href="route('announcements')"
                             class="block w-full rounded-md text-gray-700 hover:bg-gray-100 hover:shadow-md transition duration-200">
                             <h6 class="d-flex justify-content-center align-items-center">
                                 <i class="fas fa-bullhorn me-2"></i>
@@ -129,7 +142,9 @@ const showingNavigationDropdown = ref(false);
                                             <DropdownLink :href="route('profile.edit')">
                                                 Profile
                                             </DropdownLink>
-                                            <DropdownLink :href="route('logout')" method="post" as="button">
+                                            <DropdownLink href="#" @click.prevent="logout" method="post" as="button"
+                                                :class="{ disabled_logout: disabled_logout }"
+                                                :disabled="disabled_logout">
                                                 Log Out
                                             </DropdownLink>
                                         </template>
@@ -152,15 +167,15 @@ const showingNavigationDropdown = ref(false);
                             class="no-underline">
                             <i class="fas fa-user me-2"></i> Admin
                         </ResponsiveNavLink>
-                        <ResponsiveNavLink :href="route('rfid-card')" :active="route().current('rfid-card')"
+                        <ResponsiveNavLink :href="route('nfc-cards')" :active="route().current('nfc-cards')"
                             class="no-underline">
-                            <i class="fas fa-id-card me-2"></i> RFID Card
+                            <i class="fas fa-id-card me-2"></i> NFC Card
                         </ResponsiveNavLink>
                         <ResponsiveNavLink :href="route('device')" :active="route().current('device')"
                             class="no-underline">
                             <i class="fas fa-desktop me-2"></i> Devices
                         </ResponsiveNavLink>
-                        <ResponsiveNavLink :href="route('announcement')" :active="route().current('announcement')"
+                        <ResponsiveNavLink :href="route('announcements')" :active="route().current('announcements')"
                             class="no-underline">
                             <i class="fas fa-bullhorn me-2"></i> Announcements
                         </ResponsiveNavLink>
@@ -170,7 +185,7 @@ const showingNavigationDropdown = ref(false);
                         </ResponsiveNavLink>
                         <ResponsiveNavLink :href="route('entry-logs')" :active="route().current('entry-logs')"
                             class="no-underline">
-                            <i class="fas fa-right-to-bracket me-2"></i> Entry Logs
+                            1 <i class="fas fa-right-to-bracket me-2"></i> Entry Logs
                         </ResponsiveNavLink>
                         <ResponsiveNavLink :href="route('unauthorized-logs')"
                             :active="route().current('unauthorized-logs')" class="no-underline">
@@ -193,7 +208,8 @@ const showingNavigationDropdown = ref(false);
                             <ResponsiveNavLink :href="route('profile.edit')" class="no-underline">
                                 <i class="fas fa-user-edit me-2"></i> Profile
                             </ResponsiveNavLink>
-                            <ResponsiveNavLink :href="route('logout')" method="post" as="button" class="no-underline">
+                            <ResponsiveNavLink href="#" @click.prevent="logout" method="post" as="button"
+                                class="no-underline" :class="{ disabled_logout: disabled_logout }">
                                 <i class="fas fa-sign-out-alt me-2"></i> Log Out
                             </ResponsiveNavLink>
                         </div>
@@ -269,5 +285,13 @@ body {
     position: sticky;
     top: 0;
     z-index: 1;
+}
+
+.disabled_logout {
+    cursor: not-allowed !important;
+}
+
+.disabled_logout:hover {
+    background-color: transparent;
 }
 </style>

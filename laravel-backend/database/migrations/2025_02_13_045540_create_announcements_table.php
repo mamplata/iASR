@@ -15,7 +15,9 @@ return new class extends Migration
             $table->id(); // Auto-incrementing primary key (AnnouncementID)
             $table->string('department');  // e.g., "CCS"
             $table->string('publisher');   // e.g., "John Doe"
-            $table->text('content');       // Long text field (e.g., IMG/JSON or more complex content)
+            $table->longText('content');       // Long text field (e.g., IMG/JSON or more complex content)
+            $table->text('publication_date');
+            $table->string('content_type');
             $table->timestamps();
         });
     }

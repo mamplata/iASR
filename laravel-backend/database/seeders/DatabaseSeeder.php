@@ -13,7 +13,6 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        $this->call(RFIDCardSeeder::class);
         $this->call(UserSeeder::class);
         $this->call(AuditLogSeeder::class);
     }
