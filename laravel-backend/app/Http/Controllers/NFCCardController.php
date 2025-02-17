@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\NFCCard;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Inertia\Inertia;
 
 class NFCCardController extends Controller
 {
@@ -13,8 +14,15 @@ class NFCCardController extends Controller
      */
     public function index()
     {
-        //
+        $query = NFCCard::query();
+
+        return Inertia::render('NFC_Card/Index', [
+            'nfcCards' => $query->paginate(5),
+        ]);
     }
+
+
+    public function isCardExisting() {}
 
     /**
      * Show the form for creating a new resource.
@@ -35,12 +43,13 @@ class NFCCardController extends Controller
         ]);
 
         if ($validator->fails()) {
-            // Dump errors for debugging and stop execution.
-            var_dump($validator->errors()->all());
-            exit;
+            return redirect()->back()
+                ->withErrors($validator) // Send errors to frontend
+                ->withInput();
         }
 
-        NFCCard::create([
+        // Store the student in the database
+        $nfcCard = NFCCard::create([
             'uid' => $request->uid,
             'student_id'  => $request->student_id,
         ]);

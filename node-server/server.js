@@ -1,62 +1,59 @@
 const express = require("express");
 const http = require("http");
-const socketIo = require("socket.io");
-const { NFC } = require("nfc-pcsc"); // Import nfc-pcsc
-const path = require("path");
+const { Server } = require("socket.io");
+const { generateFingerprint } = require("./utils/fingerprint");
+const { initializeNFC, pendingStudent } = require("./utils/nfcHandler"); // ✅ Import correctly
 
 const app = express();
 const server = http.createServer(app);
-
-// Socket.io CORS configuration
-const io = socketIo(server, {
+const io = new Server(server, {
   cors: {
-    origin: "http://localhost:5173", // The URL of your Vue.js app
+    origin: ["http://localhost:8000", "http://127.0.0.1:8000"],
     methods: ["GET", "POST"],
     allowedHeaders: ["Content-Type"],
     credentials: true,
   },
 });
 
-// Initialize NFC reader
-const nfc = new NFC(); // Create NFC instance
+// Check device fingerprint before initializing NFC
+(async () => {
+  try {
+    const deviceFingerprint = await generateFingerprint();
+    console.log("Generated Device Fingerprint:", deviceFingerprint);
 
-// Store the UID of detected cards
-let cardUids = [];
+    // Replace with your stored registered fingerprint
+    const registeredFingerprint = '00d499bcd9327060caec1ebdf57e09845e1442f1bd82107027788d9d9d145b0e';
 
-// Handle NFC card detection
-nfc.on("reader", (reader) => {
-  console.log(`Reader detected: ${reader.reader.name}`);
+    if (deviceFingerprint !== registeredFingerprint) {
+      console.error("❌ Device not registered. Blocking NFC access.");
+      return; // Stop execution to prevent NFC initialization
+    }
 
-  // When a card is found
-  reader.on("card", (card) => {
-    console.log(`Card detected: ${card.uid}`);
+    console.log("✅ Device is registered. Enabling NFC scanning...");
+    initializeNFC(io);
+  } catch (err) {
+    console.error("❌ Initialization error:", err);
+  }
+})();
 
-    // Emit the UID to connected clients
-    io.emit("newCard", card.uid);
+// Socket.io setup
+io.on("connection", (socket) => {
+  console.log(`User connected: ${socket.id}`);
+
+  socket.on("registerStudent", (studentID) => {
+    console.log(`Student ID received: ${studentID}`);
+    
+    pendingStudent.id = studentID; // ✅ Now updates correctly!
+    
+    socket.emit("nfcStatus", "Tap your NFC card now!");
   });
 
-  // Handle card removal
-  reader.on("card.off", (card) => {
-    console.log(`Card removed: ${card.uid}`);
-  });
-
-  reader.on("error", (err) => {
-    console.error("Error:", err);
-  });
-
-  reader.on("end", () => {
-    console.log("Reader disconnected");
+  socket.on("disconnect", () => {
+    console.log(`User disconnected: ${socket.id}`);
   });
 });
 
-nfc.on("error", (err) => {
-  console.error("NFC Error:", err);
-});
-
-// Serve static files (Vue.js or plain front-end)
-app.use(express.static(path.join(__dirname, "public")));
-
-// Start server
+// Start the server
 server.listen(3000, () => {
-  console.log("Server running on http://localhost:3000");
+  console.log("Socket.io server running on port 3000");
 });

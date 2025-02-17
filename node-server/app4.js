@@ -64,7 +64,7 @@ nfc.on("reader", (reader) => {
             await reader.authenticate(sectorTrailerBlock, 0x60, defaultKey);
 
             // Access Bits: Readable by all, Write requires Custom Key A
-            const accessBitsCustom = Buffer.from([0x7F, 0x07, 0x88, 0x40]);
+            const accessBitsCustom = Buffer.from([0xFF, 0x07, 0x80, 0x69]);
 
             const sectorTrailerCustomKey = Buffer.concat([
               customKey, // New Key A
@@ -77,10 +77,10 @@ nfc.on("reader", (reader) => {
             break;
 
           case "6": // Revert to Default Key (Unlock Writing for Default Key)
-            await reader.authenticate(sectorTrailerBlock, 0x61, customKey);
+            await reader.authenticate(sectorTrailerBlock, 0x60, customKey);
 
             // Access Bits: Readable by all, Write requires Default Key A
-            const accessBitsDefault = Buffer.from([0x7F, 0x07, 0x88, 0x40]);
+            const accessBitsDefault = Buffer.from([0xFF, 0x07, 0x80, 0x69]);
 
             const sectorTrailerDefaultKey = Buffer.concat([
               defaultKey, // Restore Default Key A

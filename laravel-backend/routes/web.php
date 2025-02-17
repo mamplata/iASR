@@ -44,9 +44,8 @@ Route::put('/admin-accounts/{user}/toggle', [RegisteredUserController::class, 't
     ->middleware(['auth', 'verified'])->name('admin-accounts.toggle');
 
 //NFC Card
-Route::get('/nfc-cards', function () {
-    return Inertia::render('NFC_Card/Index');
-})->middleware(['auth', 'verified'])->name('nfc-cards');
+Route::get('/nfc-cards', [NFCCardController::class, 'index'])
+    ->middleware(['auth', 'verified'])->name('nfc-cards');
 Route::post('/nfc-cards/store', [NFCCardController::class, 'store'])
     ->middleware(['auth', 'verified'])->name('nfc-cards.store');
 
